@@ -22,8 +22,7 @@ def equipment(request):
         if audit:
             equipment_list = equipment_list.filter(audit=audit)
         if equipment_type:
-            equipment_list = equipment_list.filter(type=equipment_type)  # 'type' is a reserved word in Python, you may need to change this field name
-
+            equipment_list = equipment_list.filter(type=equipment_type)  
     context = {'equipment_list': equipment_list, 'debug_message': debug_message, 'form': form}
     return render(request, 'equipment.html', context)
 
