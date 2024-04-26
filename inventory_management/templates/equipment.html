@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Equipment{% endblock %}
+
+{% block equipment_active %}active{% endblock %}
+
+{% block signed_in_navbar %}{% endblock %}
+
+{% block content %}
+<h2>Equipment</h2>
+<hr>
+
+<h4>Filter</h4>
+<form id="filterForm" method="post" action="{% url 'equipment' %}">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-3 mb-2">
+            <label for="id_audit">Audit</label>
+            {{ form.audit }}
+        </div>
+        <div class="form-group col-md-3 mb-2">
+            <label for="id_equipment_type">Equipment Type</label>
+            {{ form.equipment_type }}
+        </div>
+        <div class="form-group col-md-3 mb-2">
+            <label for="id_location">Location</label>
+            {{ form.location }}
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <button type="button" class="btn btn-primary" onclick="resetFilter()">Reset</button>
+        </div>
+    </div>
+</form>
+
+<!-- Equipment List -->
+<div class="table-responsive">
+    <table class="table table-bordered" id="invTable">
+        <tbody>
+            {% for equipment in equipment_list %}
+                <tr>
+                    <td>{{ equipment.id }}</td>
+                    <td>{{ equipment.name }}</td>
+                    <td>{{ equipment.get_type_display }}</td>
+                    <td>{{ equipment.quantity }}</td>
+                    <td>{{ equipment.audit }}</td>
+                    <td>{{ equipment.get_location_display }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#invTable').DataTable({
+        "columns": [
+            { "data": "column1", "title": "ID" },
+            { "data": "column2", "title": "Device Name" },
+            { "data": "column3", "title": "Device Type" },
+            { "data": "column4", "title": "Quantity" },
+            { "data": "column5", "title": "Audit" },
+            { "data": "column6", "title": "Location" },
+        ]
+    });
+});
+
+function resetFilter() {
+    document.getElementById('filterForm').reset();
+    window.location.href = window.location.href;
+}
+</script>
+
+{% endblock %}
