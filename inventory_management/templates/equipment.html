@@ -45,6 +45,12 @@
                     <td>{{ equipment.quantity }}</td>
                     <td>{{ equipment.audit }}</td>
                     <td>{{ equipment.get_location_display }}</td>
+                    <td>{{ equipment.onsite }}</td>
+                    {% if equipment.quantity == 0 %}
+                    <td><a>Out of Stock</a></td>
+                    {% else %}
+                    <td><a href="{% url 'make_reservation' equipment.id %}">Reserve</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
@@ -61,6 +67,8 @@ $(document).ready(function() {
             { "data": "column4", "title": "Quantity" },
             { "data": "column5", "title": "Audit" },
             { "data": "column6", "title": "Location" },
+            { "data": "column7", "title": "On-Site Only" },
+            { "data": "column8", "title": "Actions" },
         ]
     });
 });

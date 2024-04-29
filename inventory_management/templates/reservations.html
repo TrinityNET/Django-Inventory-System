@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Reservations{% endblock %}
+
+{% block reservations_active %}active{% endblock %}
+
+{% block signed_in_navbar %}{% endblock %}
+
+{% block content %}
+<h2>Reservations</h2>
+<hr>
+<div class="table-responsive">
+    <table class="table table-bordered" id="activeResTable">
+        <tbody>
+            {% load tz %} 
+            {% for reservation in reservations_list %}
+                {% if reservation.end_date|date:'Y-m-d' >= now|date:'Y-m-d' %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.equipment.name }}</td>
+                    <td>{{ reservation.equipment.get_type_display }}</td>
+                    <td>{{ reservation.equipment.audit }}</td>
+                    <td>{{ reservation.equipment.get_location_display }}</td>
+                    <td>{{ reservation.equipment.onsite }}</td>
+                    <td>{{ reservation.start_date }}</td>
+                    <td>{{ reservation.end_date }}</td>
+                    <td><a href="{% url 'delete_reservation' reservation.pk %}">Delete</a></td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+<h2>Historical Reservations</h2>
+<hr>
+<div class="table-responsive">
+    <table class="table table-bordered" id="hisResTable">
+        <tbody>
+            {% for reservation in reservations_list %}
+                {% if reservation.end_date|date:'Y-m-d' < now|date:'Y-m-d' %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.equipment.name }}</td>
+                    <td>{{ reservation.equipment.get_type_display }}</td>
+                    <td>{{ reservation.equipment.audit }}</td>
+                    <td>{{ reservation.equipment.get_location_display }}</td>
+                    <td>{{ reservation.equipment.onsite }}</td>
+                    <td>{{ reservation.start_date }}</td>
+                    <td>{{ reservation.end_date }}</td>
+                    <td>
+                        <a href="{% url 'make_reservation' reservation.equipment.id %}">Book Again</a>
+                        <br>
+                        <a href="{% url 'delete_reservation' reservation.pk %}">Delete</a>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#activeResTable').DataTable({
+        "columns": [
+            { "data": "column1", "title": "ID" },
+            { "data": "column2", "title": "Device Name" },
+            { "data": "column3", "title": "Device Type" },
+            { "data": "column4", "title": "Audit" },
+            { "data": "column5", "title": "Location" },
+            { "data": "column6", "title": "On-Site Only" },
+            { "data": "column7", "title": "Reservation Start" },
+            { "data": "column8", "title": "Reservation End" },
+            { "data": "column9", "title": "Actions" },
+        ]
+    });
+    $('#hisResTable').DataTable({
+        "columns": [
+            { "data": "column1", "title": "ID" },
+            { "data": "column2", "title": "Device Name" },
+            { "data": "column3", "title": "Device Type" },
+            { "data": "column4", "title": "Audit" },
+            { "data": "column5", "title": "Location" },
+            { "data": "column6", "title": "On-Site Only" },
+            { "data": "column7", "title": "Reservation Start" },
+            { "data": "column8", "title": "Reservation End" },
+            { "data": "column9", "title": "Actions" },
+        ]
+    });
+});
+
+function resetFilter() {
+    document.getElementById('filterForm').reset();
+    window.location.href = window.location.href;
+}
+</script>
+
+{% endblock %}

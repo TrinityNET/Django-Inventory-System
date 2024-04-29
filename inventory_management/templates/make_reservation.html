@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}Make Reservation{% endblock %}
+
+{% block signed_in_navbar %}{% endblock %}
+
+{% block content %}
+<h2>Make Reservation</h2>
+<hr>
+
+<h5>Device Name: {{ equipment.name }}</h5>
+<h5>Device Type: {{ equipment.get_type_display }}</h5>
+<h5>Audit: {{ equipment.audit }}</h5>
+<h5>Location: {{ equipment.location }}</h5>
+<h5>Remaining Quantity: {{ equipment.quantity }}</h5>
+<hr>
+
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% endif %}
+
+<form action="{% url 'make_reservation' equipment_id=equipment.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group col-md-3 mb-2">
+            <label id="start-date-label">Reservation Start Date: </label>
+        </div>
+        <div class="form-group col-md-3 mb-2">
+            <label for="id_audit">Reservation End Date</label>
+            {{ form.end_date }}
+        </div>
+        <div class="form-group col-md-3 mb-3">
+            {% if equipment.quantity == 0 %}
+            <button enabled=false class="btn btn-secondary">Out of Stock</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary">Reserve</button>
+            {% endif %}
+        </div>
+    </div>
+</form>
+
+<script>
+    document.getElementById('start-date-label').textContent += new Date().toLocaleDateString('en-GB');
+</script>
+
+{% endblock %}

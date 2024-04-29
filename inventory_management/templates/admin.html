@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block admin_active %}active{% endblock %}
+
+{% block signed_in_navbar %}{% endblock %}
+
+{% block content %}
+<h2>Admin Report</h2>
+<hr>
+<h5>Total Equipment: {{ equipment_count }}</h5>
+<h5>Equipment Quantity: {{ equipment_quantity }}</h5>
+<br>
+<h5>Total Reservations: {{ reservation_count }}</h5>
+<h5>Overdue Reservations: {{ overdue_count }}</h5>
+<br>
+<h2>Overdue Reservations</h2>
+<hr>
+<div class="table-responsive">
+    <table class="table table-bordered" id="overdueTable">
+        <tbody>
+            {% for reservation in reservations_list %}
+                {% if reservation.end_date|date:'Y-m-d' < now|date:'Y-m-d' %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.equipment.id }}</td>
+                    <td>[ ID: {{ reservation.user.id }} ] {{ reservation.user }}</td>
+                    <td>{{ reservation.start_date }}</td>
+                    <td>{{ reservation.end_date }}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#overdueTable').DataTable({
+        "columns": [
+            { "data": "column1", "title": "Reservation ID" },
+            { "data": "column2", "title": "Device ID" },
+            { "data": "column3", "title": "User" },
+            { "data": "column4", "title": "Reservation Start" },
+            { "data": "column5", "title": "Reservation End" },
+        ]
+    });
+});
+
+function resetFilter() {
+    document.getElementById('filterForm').reset();
+    window.location.href = window.location.href;
+}
+</script>
+
+{% endblock %}

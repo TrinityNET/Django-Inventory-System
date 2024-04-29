@@ -21,9 +21,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', views.user_login, name='login'),
+    path('django_admin/', admin.site.urls),
     path('signup/', views.signup, name='signup'),
     path('login/', views.user_login, name='login'),
     path('equipment/', views.equipment, name='equipment'),
+    path('make_reservation/<int:equipment_id>/', views.make_reservation, name='make_reservation'),
+    path('reservations/', views.reservations, name='reservations'),
+    path('reservation/<int:pk>/delete/', views.delete_reservation, name='delete_reservation'),
+    path('admin/', views.admin, name='admin'),
     path('logout/', views.user_logout, name='logout'),
 ]

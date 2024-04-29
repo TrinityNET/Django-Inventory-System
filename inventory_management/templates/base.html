@@ -22,10 +22,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link {% block equipment_active %}{% endblock %}" href="{% url 'equipment' %}">Equipment</a>
                 </li>
-                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link {% block reservations_active %}{% endblock %}" href="{% url 'reservations' %}">Reservations</a>
+                </li>
+                {% if user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link {% block admin_active %}{% endblock %}" href="{% url 'admin' %}">Admin Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/django_admin/">Site Administration</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
