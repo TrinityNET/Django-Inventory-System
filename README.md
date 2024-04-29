@@ -1,1 +1,3 @@
-Wag1
+Staff Account
+Username: user
+Password: RandomPazzword123!
