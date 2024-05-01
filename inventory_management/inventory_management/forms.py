@@ -1,6 +1,9 @@
 from django import forms
 from .models import Equipment, Reservation
 
+# Author - Jake Lazaros, Jibran Jehangir
+
+
 class EquipmentFilterForm(forms.Form):
     audit = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     equipment_type = forms.ChoiceField(choices=Equipment.EQUIPMENT_TYPES, required=False)

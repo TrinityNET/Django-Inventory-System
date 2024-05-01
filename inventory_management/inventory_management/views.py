@@ -7,6 +7,8 @@ from .models import Equipment, Reservation
 from .forms import EquipmentFilterForm, ReservationForm
 from django.utils import timezone
 
+# Main Author - Jake Lazaros
+
 @login_required
 def make_reservation(request, equipment_id):
     equipment = get_object_or_404(Equipment, pk=equipment_id)
@@ -49,11 +51,13 @@ def reservations(request):
     context = {'reservations_list': reservations_list, 'debug_message': debug_message, 'now': timezone.now().date()}
     return render(request, 'reservations.html', context)
 
+# Author - Hussain Abdallah
 @login_required
 def delete_reservation(request, pk):
     reservation = get_object_or_404(Reservation, pk=pk)
     reservation.delete()
     return redirect('reservations')
+
 
 @login_required
 def equipment(request):
@@ -93,9 +97,11 @@ def admin(request):
     else:
         return redirect('equipment')
 
+# Author - Carlo Atsu
 def user_logout(request):
     logout(request)
     return redirect('login')
+
 
 def signup(request):
     if request.method == 'POST':

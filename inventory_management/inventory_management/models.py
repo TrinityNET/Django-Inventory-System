@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# Author - Jake Lazaros, Hibba Elgalal
+
 class Equipment(models.Model):
     EQUIPMENT_TYPES = [
         ('pclaptops', 'PC/Laptop'),

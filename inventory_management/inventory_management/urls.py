@@ -20,6 +20,8 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Author - Jake Lazaros, Daniil Lebedev
+
 urlpatterns = [
     path('', views.user_login, name='login'),
     path('django_admin/', admin.site.urls),
